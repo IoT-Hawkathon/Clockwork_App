@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -45,6 +46,14 @@ public class MainActivity extends AppCompatActivity {
      * Static context.
      */
     private static Context sContext;
+
+    /**
+     * Extras
+     */
+    private String apikey = "your-apikey-here";
+    private String url_ocrdocument = "https://api.idolondemand.com/1/api/sync/ocrdocument/v1";
+    private String filesrc="images/plos_SemanticParticularityMeasure.jpg";
+
 
     /**
      * Data used to update list, and semi-dynamically update views.
@@ -194,4 +203,53 @@ public class MainActivity extends AppCompatActivity {
         mGridView.invalidateViews();
         ((AlarmAdapter) (mGridView.getAdapter())).updateData(data);
     }
+//
+//    public void post1(){
+//
+//        CloseableHttpClient httpclient = HttpClients.createDefault();
+//
+//        try {
+//            HttpPost httppost = new HttpPost(url_ocrdocument);
+//
+//            File f = new File(fileSrc);
+//            FileBody fileBody = new FileBody(f);
+//            StringBody apikeyStringBody = new StringBody(apikey, ContentType.TEXT_PLAIN);
+//
+//            HttpEntity reqEntity = MultipartEntityBuilder.create()
+//                    .addPart("file", fileBody)
+//                    .addPart("apikey", apikeyStringBody)
+//                    .build();
+//
+//            httppost.setEntity(reqEntity);
+//
+//            CloseableHttpResponse response = null;
+//
+//            try {
+//                response = httpclient.execute(httppost);
+//
+//                System.out.println(response.getStatusLine());
+//                HttpEntity entity = response.getEntity();
+//                if (entity != null) {
+//                    entity.writeTo(System.out);
+//                }
+//
+//            }catch(ClientProtocolException cpe){
+//                cpe.printStackTrace();
+//            }catch(IOException ioe){
+//                ioe.printStackTrace();
+//            } finally {
+//                try {
+//                    response.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        } finally {
+//            try {
+//                httpclient.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 }
