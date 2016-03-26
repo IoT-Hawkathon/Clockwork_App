@@ -2,5 +2,6 @@
     <string name="app_name">Clockwork</string>
     <string name="action_settings">Settings</string>
     <string name="no_alarms">No alarms set, set some alarms!</string>
-    <string name="alarm_number">%1$s:%1$s</string>
+    <string name="alarm_hour">%1$s:</string>
+    <string name="alarm_minute">%1$s</string>
 </resources>

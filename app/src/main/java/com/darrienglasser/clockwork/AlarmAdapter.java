@@ -34,12 +34,18 @@ public class AlarmAdapter extends BaseAdapter {
 
         AlarmData data = mDataList.get(position);
 
-        TextView display = (TextView) alarmRow.findViewById(R.id.alarm_number);
+        TextView hourDisplay = (TextView) alarmRow.findViewById(R.id.alarm_hour);
+        TextView minuteDisplay = (TextView) alarmRow.findViewById(R.id.alarm_minute);
+
         Switch toggle = (Switch) alarmRow.findViewById(R.id.toggle_switch);
 
-        display.setText(
+        hourDisplay.setText(
                 String.format(
-                mContext.getString(R.string.alarm_number), data.getHour(), data.getMinute()));
+                mContext.getString(R.string.alarm_hour), data.getHour()));
+
+        minuteDisplay.setText(
+                String.format(
+                        mContext.getString(R.string.alarm_minute), data.getMinute()));
 
         toggle.setChecked(data.isToggled());
 
@@ -63,4 +69,11 @@ public class AlarmAdapter extends BaseAdapter {
         return mDataList.get(position);
     }
 
+    /**
+     * Helper method. Updates views.
+     */
+    public void updateData(AlarmData data) {
+        mDataList.add(data);
+        notifyDataSetChanged();
+    }
 }
