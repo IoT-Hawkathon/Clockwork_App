@@ -14,6 +14,9 @@ import android.widget.TimePicker;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Handler;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Data used to update list, and semi-dynamically update views.
      *
-     * Humorously named after the data sync issues it creates. 
+     * Humorously named after the data sync issues it creates.
      */
     private AlarmData mDataSyncIssue;
 
@@ -77,9 +80,9 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         if (checkDbExistence()) {
             mGridView = (GridView) findViewById(R.id.alarm_list);
-            mGridView.setAdapter(new AlarmAdapter(mDatabase.dbToGroupList(), sContext));
+            mGridView.setAdapter(new AlarmAdapter(mDatabase.dbToGroupList(), sContext, mDatabase));
             mAlarmsActiveText.setVisibility(View.VISIBLE);
-            mAlarmsText.setVisibility(View.VISIBLE);
+            mAlarmsText.setVisibility(View.GONE);
         } else {
             if (mGridView != null) {
                 mGridView.setVisibility(View.GONE);
@@ -131,10 +134,22 @@ public class MainActivity extends AppCompatActivity {
                 }, now.get(Calendar.HOUR), now.get(Calendar.MINUTE), false);
         timePickerDialog.show();
 
+        Timer myTimer = new Timer();
 
-        if (mGridView == null || mDataSyncIssue == null) return;
-        updateViews(mDataSyncIssue);
-        mDataSyncIssue = null;
+        // Hell is real. 
+        myTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mGridView == null || mDataSyncIssue == null) return;
+                        updateViews(mDataSyncIssue);
+                        mDataSyncIssue = null;
+                    }
+                });
+            }
+        }, 0, 1000);
     }
 
     /**
