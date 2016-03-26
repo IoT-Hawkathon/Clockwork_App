@@ -5,11 +5,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -19,6 +19,8 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity {
 
     private MyDBHandler mDatabase;
+
+    private TextView mAlarmsActiveText;
 
     private GridView mGridView;
 
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         mDatabase = new MyDBHandler(getApplicationContext(), null, null, 1);
 
         mAlarmsText = (TextView) findViewById(R.id.no_alarms_text);
+
+        mAlarmsActiveText = (TextView) findViewById(R.id.alarms_header_text);
 
         sContext = this;
 
@@ -55,11 +59,13 @@ public class MainActivity extends AppCompatActivity {
         if (checkDbExistence()) {
             mGridView = (GridView) findViewById(R.id.alarm_list);
             mGridView.setAdapter(new AlarmAdapter(mDatabase.dbToGroupList(), sContext));
-            mGridView.setVisibility(View.VISIBLE);
-            mAlarmsText.setVisibility(View.GONE);
+            mAlarmsActiveText.setVisibility(View.VISIBLE);
+            mAlarmsText.setVisibility(View.VISIBLE);
         } else {
             if (mGridView != null) {
                 mGridView.setVisibility(View.GONE);
+                mAlarmsActiveText.setVisibility(View.GONE);
+                mAlarmsText.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -92,13 +98,14 @@ public class MainActivity extends AppCompatActivity {
     private void startTimePicker() {
         Calendar now = Calendar.getInstance();
 
-        AlarmData data;
-
         TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this,
                 new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         AlarmData data = new AlarmData(hourOfDay, minute, false);
+                        if (data.getHour() == 0) {
+                            data.setHour(12);
+                        }
                         mDatabase.addData(data);
                         mDataSyncIssue = data;
                     }
@@ -126,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
      * Helper method that updates views.
      */
     public void updateViews(AlarmData data) {
-        Log.d("DGl", "Updating views...");
         mGridView.invalidateViews();
         ((AlarmAdapter) (mGridView.getAdapter())).updateData(data);
     }

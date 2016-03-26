@@ -4,4 +4,5 @@
     <string name="no_alarms">No alarms set, set some alarms!</string>
     <string name="alarm_hour">%1$s:</string>
     <string name="alarm_minute">%1$s</string>
+    <string name="alarm_header">Clock Work</string>
 </resources>

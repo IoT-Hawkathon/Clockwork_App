@@ -43,9 +43,17 @@ public class AlarmAdapter extends BaseAdapter {
                 String.format(
                 mContext.getString(R.string.alarm_hour), data.getHour()));
 
+        String cat;
+
+        if (data.getMinute() < 10) {
+            cat = "0" + data.getMinute();
+        } else {
+            cat = "" + data.getMinute();
+        }
+
         minuteDisplay.setText(
                 String.format(
-                        mContext.getString(R.string.alarm_minute), data.getMinute()));
+                        mContext.getString(R.string.alarm_minute), cat));
 
         toggle.setChecked(data.isToggled());
 
