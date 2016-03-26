@@ -125,6 +125,11 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return dataList;
     }
 
+    /**
+     * Returns the last item in the database.
+     *
+     * @return Last item in the database. 
+     */
     public AlarmData getLastData() {
         ArrayList<AlarmData> dataList = new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();

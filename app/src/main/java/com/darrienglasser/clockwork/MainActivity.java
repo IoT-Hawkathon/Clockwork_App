@@ -124,10 +124,7 @@ public class MainActivity extends AppCompatActivity {
                 new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        AlarmData data = new AlarmData(hourOfDay, minute, false);
-                        if (data.getHour() == 0) {
-                            data.setHour(12);
-                        }
+                        AlarmData data = new AlarmData(hourOfDay, minute, true);
                         mDatabase.addData(data);
                         mDataSyncIssue = data;
                     }
@@ -136,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
         Timer myTimer = new Timer();
 
-        // Hell is real. 
+        // Hell is real.
         myTimer.schedule(new TimerTask() {
             @Override
             public void run() {

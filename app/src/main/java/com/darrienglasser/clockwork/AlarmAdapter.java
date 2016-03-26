@@ -10,6 +10,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class AlarmAdapter extends BaseAdapter {
 
@@ -64,7 +66,7 @@ public class AlarmAdapter extends BaseAdapter {
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                AlarmData updatedData;
+                final AlarmData updatedData;
                 updatedData = mDataList.get(position);
                 updatedData.setToggled(isChecked);
                 mDataList.remove(position);
@@ -109,6 +111,7 @@ public class AlarmAdapter extends BaseAdapter {
         for (AlarmData alarmData : mDataList) {
             mDatabase.addData(alarmData);
         }
+
         notifyDataSetChanged();
     }
 }
