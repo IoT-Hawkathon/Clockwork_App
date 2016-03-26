@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -18,16 +17,36 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * Database to hold alarm data.
+     */
     private MyDBHandler mDatabase;
 
+    /**
+     * Textview holding makeshift action bar.
+     */
     private TextView mAlarmsActiveText;
 
+    /**
+     * Grid encasing our data.
+     */
     private GridView mGridView;
 
+    /**
+     * Textview displayed when there are no alarms on screen.
+     */
     private TextView mAlarmsText;
 
+    /**
+     * Static context.
+     */
     private static Context sContext;
 
+    /**
+     * Data used to update list, and semi-dynamically update views.
+     *
+     * Humorously named after the data sync issues it creates. 
+     */
     private AlarmData mDataSyncIssue;
 
     @Override
