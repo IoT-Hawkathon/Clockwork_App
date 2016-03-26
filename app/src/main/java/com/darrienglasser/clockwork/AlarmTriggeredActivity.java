@@ -1,21 +1,23 @@
 package com.darrienglasser.clockwork;
 
 import android.Manifest;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.CalendarContract.Calendars;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Calendar;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Random;
+import java.util.Scanner;
 
 /**
  * Activity shown when an activity is triggered.
@@ -24,11 +26,13 @@ public class AlarmTriggeredActivity extends AppCompatActivity {
 
     int mReqCode;
 
+    final private static String redditKey = "TIL_OUTPUT.txt";
+
     /**
-     *   Projection array. Creating indices for this array instead of doing
-     *   dynamic lookups improves performance.
+     * Projection array. Creating indices for this array instead of doing
+     * dynamic lookups improves performance.
      */
-    public static final String[] EVENT_PROJECTION = new String[] {
+    public static final String[] EVENT_PROJECTION = new String[]{
             Calendars._ID,                           // 0
             Calendars.ACCOUNT_NAME,                  // 1
             Calendars.CALENDAR_DISPLAY_NAME,         // 2
@@ -39,7 +43,6 @@ public class AlarmTriggeredActivity extends AppCompatActivity {
     private static final int PROJECTION_EVENT_DESCRIPTION_INDEX = 1;
     private static final int PROJECTION_DISPLAY_NAME_INDEX = 2;
     private static final int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
-
 
 
     @Override
@@ -66,14 +69,23 @@ public class AlarmTriggeredActivity extends AppCompatActivity {
         TextView end1 = (TextView) findViewById(R.id.EventTimeEnd);
         TextView end2 = (TextView) findViewById(R.id.SecondEventTimeEnd);
 
-        event1.setText(cInfo1.getEventName());
-        event2.setText(cInfo2.getEventName());
+        try {
+            event1.setText(cInfo1.getEventName());
+            event2.setText(cInfo2.getEventName());
 
-        start1.setText(cInfo1.getStartTime());
-        start2.setText(cInfo2.getStartTime());
+            start1.setText(cInfo1.getStartTime());
+            start2.setText(cInfo2.getStartTime());
 
-        end1.setText(cInfo1.getEndTime());
-        end2.setText(cInfo2.getEndTime());
+            end1.setText(cInfo1.getEndTime());
+            end2.setText(cInfo2.getEndTime());
+
+            TextView factLine = (TextView) findViewById(R.id.fact_line);
+            factLine.setText(getLine("/Download/" + redditKey));
+        } catch (NullPointerException e) {
+            Log.d("DGl", "Do nothing");
+        }
+
+
 
 //        Calendar cal = Calendar.getInstance();
 //
@@ -111,21 +123,44 @@ public class AlarmTriggeredActivity extends AppCompatActivity {
 //
 
     }
-        @Override
-        public void onRequestPermissionsResult (int requestCode,
-                                                @NonNull String permissions[],
-                                                @NonNull int[] grantResults){
 
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Do nothing. We got the permission! Yay compliant users!
-            } else {
-                Toast.makeText(
-                        getApplicationContext(),
-                        "We can't run without your permission :(",
-                        Toast.LENGTH_LONG).show();
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
 
-                startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
-            }
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            // Do nothing. We got the permission! Yay compliant users!
+        } else {
+            Toast.makeText(
+                    getApplicationContext(),
+                    "We can't run without your permission :(",
+                    Toast.LENGTH_LONG).show();
+
+            startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
         }
     }
+
+    private String getLine(String name) {
+
+        File file = new File(name);
+        String result = null;
+        Random rand = new Random();
+        int n = 0;
+
+        try {
+            for (Scanner sc = new Scanner(file); sc.hasNext(); ) {
+                ++n;
+                String line = sc.nextLine();
+                if (rand.nextInt(n) == 0) {
+                    result = line;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            return "No data found.";
+        }
+        Log.wtf("DGl", result, new RuntimeException("Hello world"));
+        return result;
+    }
+}
 

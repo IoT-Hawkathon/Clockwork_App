@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -17,7 +18,6 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Handler;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,24 +58,41 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Intent AwsIntent = new Intent(MainActivity.this, easyAWS.class);
+                startService(AwsIntent);
+            }
+        });
+
+        t.run();
+
         mDatabase = new MyDBHandler(getApplicationContext(), null, null, 1);
-
         mAlarmsText = (TextView) findViewById(R.id.no_alarms_text);
-
         mAlarmsActiveText = (TextView) findViewById(R.id.alarms_header_text);
-
         sContext = this;
+//        mRefreshButton = (ImageButton) findViewById(R.id.refreshButton);
+//        mRefreshButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Thread t = new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        easyAWS.beginDownload();
+//                    }
+//                });
+//                t.run();
+//            }
+//        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if (fab == null) return;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 startTimePicker();
-
                 final android.os.Handler handler = new android.os.Handler();
-
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
@@ -86,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                                         getApplicationContext(), AlarmTriggeredActivity.class);
                                 startActivity(intent);
                             }
-                        }, 15000);
+                        }, 10000);
                     }
                 };
                 runnable.run();

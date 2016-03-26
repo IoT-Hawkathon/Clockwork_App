@@ -1,4 +1,4 @@
-package com.amazonaws.demo.s3tranferutility;
+package com.darrienglasser.clockwork;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,6 +8,7 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.darrienglasser.clockwork.Constants;
 
 import java.io.File;
 import java.io.FileOutputStream;

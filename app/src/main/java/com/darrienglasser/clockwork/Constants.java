@@ -1,4 +1,4 @@
-package com.amazonaws.demo.s3tranferutility;
+package com.darrienglasser.clockwork;
 
 public class Constants {
 
