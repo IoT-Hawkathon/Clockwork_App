@@ -2,6 +2,7 @@ package com.darrienglasser.clockwork;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -70,10 +71,32 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 startTimePicker();
+
+                final android.os.Handler handler = new android.os.Handler();
+
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(
+                                        getApplicationContext(), AlarmTriggeredActivity.class);
+                                startActivity(intent);
+                            }
+                        }, 15000);
+                    }
+                };
+                runnable.run();
             }
         });
+
+
+
     }
+
 
     @Override
     public void onResume() {

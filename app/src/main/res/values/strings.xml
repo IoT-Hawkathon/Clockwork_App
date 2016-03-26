@@ -22,5 +22,6 @@
     <string name="cancel_all">Cancel all</string>
     <string name="refreshing">Refreshing</string>
     <string name="please_wait">Please wait</string>
+    <string name="event_name">%1$s</string>
 
 </resources>
