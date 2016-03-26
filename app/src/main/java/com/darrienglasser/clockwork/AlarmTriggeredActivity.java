@@ -157,9 +157,8 @@ public class AlarmTriggeredActivity extends AppCompatActivity {
                 }
             }
         } catch (FileNotFoundException e) {
-            return "No data found.";
+            return "Data not found.";
         }
-        Log.wtf("DGl", result, new RuntimeException("Hello world"));
         return result;
     }
 }
