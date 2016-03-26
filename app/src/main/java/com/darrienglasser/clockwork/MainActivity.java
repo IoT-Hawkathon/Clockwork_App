@@ -61,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Factory method. Pushes a timePickerDialog to the screen for data to be saved.
+     */
     private void startTimePicker() {
         Calendar now = Calendar.getInstance();
 
@@ -72,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                         mDatabase.addData(data);
                     }
                 }, now.get(Calendar.HOUR), now.get(Calendar.MINUTE), false);
-
+        timePickerDialog.show();
 
     }
 }
