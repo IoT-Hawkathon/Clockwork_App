@@ -72,19 +72,6 @@ public class MainActivity extends AppCompatActivity {
         mAlarmsText = (TextView) findViewById(R.id.no_alarms_text);
         mAlarmsActiveText = (TextView) findViewById(R.id.alarms_header_text);
         sContext = this;
-//        mRefreshButton = (ImageButton) findViewById(R.id.refreshButton);
-//        mRefreshButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Thread t = new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        easyAWS.beginDownload();
-//                    }
-//                });
-//                t.run();
-//            }
-//        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if (fab == null) return;

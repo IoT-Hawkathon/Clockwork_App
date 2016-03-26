@@ -53,14 +53,4 @@
 
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/refreshButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/no_alarms_text"
-        android:layout_toEndOf="@id/no_alarms_text"
-        android:src="@drawable/ic_action_refresh"
-        android:background="#3F51B5"
-        />
-
 </RelativeLayout>
