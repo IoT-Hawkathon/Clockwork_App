@@ -74,6 +74,14 @@ public class MyDBHandler extends SQLiteOpenHelper {
                 "DELETE FROM " + TABLE_PRODUCTS + " WHERE " + COLUMN_ID + "=\"" + groupID + "\";");
     }
 
+    /**
+     * Destroys database entirely.
+     */
+    public void destroy() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(TABLE_PRODUCTS, null, null);
+    }
+
     public ArrayList<AlarmData> dbToGroupList() {
         ArrayList<AlarmData> dataList = new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
@@ -115,5 +123,41 @@ public class MyDBHandler extends SQLiteOpenHelper {
         cMinute.close();
         cToggle.close();
         return dataList;
+    }
+
+    /**
+     * Returns the last item in the database.
+     *
+     * @return Last item in the database. 
+     */
+    public AlarmData getLastData() {
+        ArrayList<AlarmData> dataList = new ArrayList<>();
+        SQLiteDatabase db = getWritableDatabase();
+
+        String nameQuery = "SELECT " + COLUMN_HOUR + " FROM " + TABLE_PRODUCTS + " WHERE 1";
+
+        String numGroupsQuery =
+                "SELECT " + COLUMN_MINUTE + " FROM " + TABLE_PRODUCTS + " WHERE 1";
+
+        String numSGroupsQuery =
+                "SELECT " + COLUMN_TOGGLE + " FROM " + TABLE_PRODUCTS + " WHERE 1";
+
+        Cursor cHour = db.rawQuery(nameQuery, null);
+        Cursor cMinute = db.rawQuery(numGroupsQuery, null);
+        Cursor cToggle = db.rawQuery(numSGroupsQuery, null);
+
+        cHour.moveToLast();
+        cMinute.moveToLast();
+        cToggle.moveToLast();
+
+        AlarmData data = new AlarmData(cHour.getInt(cHour.getColumnIndex(COLUMN_HOUR)),
+                cMinute.getInt(cMinute.getColumnIndex(COLUMN_MINUTE)),
+                Boolean.parseBoolean(
+                        cToggle.getString(cToggle.getColumnIndex(COLUMN_TOGGLE))));
+
+        cHour.close();
+        cMinute.close();
+        cToggle.close();
+        return data;
     }
 }

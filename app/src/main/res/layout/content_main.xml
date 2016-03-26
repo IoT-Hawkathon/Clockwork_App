@@ -14,6 +14,7 @@
     tools:showIn="@layout/activity_main">
 
     <TextView
+        android:id="@+id/no_alarms_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/no_alarms"
@@ -23,15 +24,35 @@
         android:paddingBottom="100dp"
         android:textStyle="bold"
         android:textColor="#FFFFFF" />
-    
-    <GridView
-        android:id="@+id/alarm_list"
+
+    <LinearLayout
+        android:id="@+id/alarms_active_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:columnWidth="200dp"
-        android:numColumns="auto_fit"
-        android:gravity="center_horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/alarms_header_text"
+            android:text="@string/alarm_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF" />
 
 
-    </GridView>
+
+        <GridView
+            android:id="@+id/alarm_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnWidth="200dp"
+            android:numColumns="auto_fit"
+            android:gravity="center_horizontal">
+
+
+        </GridView>
+
+    </LinearLayout>
+
 </RelativeLayout>
